@@ -4,7 +4,9 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## About
 
-This is a simple hotel reservation application built using Angular, Bootstrap, html, and css. You can create & view reservations. 
+This is a simple hotel reservation application built using Angular, Bootstrap, html, and css. You can create, view, and edit reservations. 
+
+**Note - commented out code that was used to setup a mockapi and retrieve/update reservation data. Reverted to localStorage logic temporariliy 
 
 ## Development server
 
