@@ -36,37 +36,69 @@ export class ReservationFormComponent implements OnInit{
         roomNumber: ['',Validators.required]
       })
 
-      
-      let id = this.activatedRoute.snapshot.paramMap.get('id');
+      let id = this.activatedRoute.snapshot.paramMap.get('id')
+
       if(id){
-        this.reservationService.getReservation(id)?.subscribe(reservation => {
-          if(reservation){
-            this.reservationForm.patchValue(reservation) // patch/'prefill' all values in reservation into form
-          }
-        });
+        let reservation = this.reservationService.getReservation(id)
+
+        if(reservation)
+          this.reservationForm.patchValue(reservation)
       }
+
+      
+      // let id = this.activatedRoute.snapshot.paramMap.get('id');
+      // if(id){
+      //   this.reservationService.getReservation(id)?.subscribe(reservation => {
+      //     if(reservation){
+      //       this.reservationForm.patchValue(reservation) // patch/'prefill' all values in reservation into form
+      //     }
+      //   });
+      // }
   }
 
   onSubmit(){
     // check if reservation form is valid & add reservation
+
     if(this.reservationForm.valid){
-      console.log("valid")
+
       let reservation: Reservation = this.reservationForm.value;
 
-      let id = this.activatedRoute.snapshot.paramMap.get('id'); // grab id from endpoint url
-      if(id){ // we update existing reservation
-        this.reservationService.updateReservation(id, reservation).subscribe(()=>{
-          console.log("update processed")
-        })
-      }else{ // we add a new reservation
-        this.reservationService.addReservation(reservation).subscribe(()=>{
-          console.log("add processed")
-        });
+      let id = this.activatedRoute.snapshot.paramMap.get('id')
+
+      if(id){
+        // Update
+        this.reservationService.updateReservation(id, reservation)
+      } else {
+        // New
+        this.reservationService.addReservation(reservation)   
+
       }
 
-      // navgiate the user to reservations list page after submit btn is clicked
       this.router.navigate(['/list'])
-
     }
+
+
+
+    // if(this.reservationForm.valid){
+    //   console.log("valid")
+    //   let reservation: Reservation = this.reservationForm.value;
+
+    //   let id = this.activatedRoute.snapshot.paramMap.get('id'); // grab id from endpoint url
+    //   if(id){ // we update existing reservation
+    //     this.reservationService.updateReservation(id, reservation).subscribe(()=>{
+    //       console.log("update processed");
+    //       this.router.navigate(['/reservations']);
+    //     })
+    //   }else{ // we add a new reservation
+    //     this.reservationService.addReservation(reservation).subscribe(()=>{
+    //       console.log("add processed");
+    //       this.router.navigate(['/reservations']);
+    //     });
+    //   }
+
+    //   // navgiate the user to reservations list page after submit btn is clicked
+    //   this.router.navigate(['/list'])
+
+    // }
   }
 }
